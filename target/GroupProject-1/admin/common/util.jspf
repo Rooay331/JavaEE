@@ -1,0 +1,102 @@
+<%@page import="java.net.URLEncoder"%>
+<%@page import="java.nio.charset.StandardCharsets"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.time.Month"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.format.TextStyle"%>
+<%@page import="java.util.Locale"%>
+<%@page import="java.util.Map"%>
+<%!
+    private static final DateTimeFormatter ADMIN_DATE = DateTimeFormatter.ofPattern("d-M-yyyy");
+    private static final DateTimeFormatter ADMIN_DATE_TIME = DateTimeFormatter.ofPattern("d-M-yyyy H:mm");
+
+    private String escapeHtml(String value) {
+        if (value == null) {
+            return "";
+        }
+
+        return value
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("\"", "&quot;")
+            .replace("'", "&#39;");
+    }
+
+    private String safeText(String value) {
+        return value == null || value.trim().isEmpty() ? "Not recorded" : escapeHtml(value);
+    }
+
+    private String formValue(String value) {
+        return value == null ? "" : escapeHtml(value);
+    }
+
+    private String formatDate(LocalDate value) {
+        return value == null ? "Not recorded" : ADMIN_DATE.format(value);
+    }
+
+    private String formatDateTime(LocalDateTime value) {
+        return value == null ? "Not recorded" : ADMIN_DATE_TIME.format(value);
+    }
+
+    private String monthName(int month) {
+        if (month < 1 || month > 12) {
+            return "";
+        }
+
+        return Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+    }
+
+    private String yesNo(boolean value) {
+        return value ? "Yes" : "No";
+    }
+
+    private String roleChipClass(String role) {
+        if (role == null) {
+            return "pill-neutral";
+        }
+
+        switch (role.trim().toUpperCase()) {
+            case "ADMIN":
+                return "status-critical";
+            case "STAFF":
+                return "status-confirmed";
+            case "PATIENT":
+                return "status-medium";
+            default:
+                return "pill-neutral";
+        }
+    }
+
+    private String userStatusClass(int isActive) {
+        return isActive == 1 ? "status-confirmed" : "status-pending";
+    }
+
+    private String userCode(Integer userId) {
+        return userId == null ? "-" : "U-" + userId;
+    }
+
+    private String clinicNameById(Integer clinicId, Map<Integer, String> clinicNamesById) {
+        if (clinicId == null) {
+            return "Not assigned";
+        }
+
+        if (clinicNamesById != null) {
+            String name = clinicNamesById.get(clinicId);
+            if (name != null && !name.trim().isEmpty()) {
+                return escapeHtml(name);
+            }
+        }
+
+        return "Clinic ID " + clinicId;
+    }
+
+    private String urlEncode(String value) {
+        if (value == null) {
+            return "";
+        }
+
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
+    }
+%>

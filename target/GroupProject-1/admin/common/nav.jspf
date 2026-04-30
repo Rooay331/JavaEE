@@ -1,0 +1,37 @@
+<%@page import="ict.bean.User"%>
+<%
+    String activeAdminPath = (String) request.getAttribute("activeAdminPath");
+    String adminServletPath = activeAdminPath != null ? activeAdminPath : request.getServletPath();
+    boolean dashboardActive = "/admin/dashboard".equals(adminServletPath);
+    boolean usersActive = adminServletPath != null && adminServletPath.startsWith("/admin/users/");
+    boolean servicesActive = adminServletPath != null && adminServletPath.startsWith("/admin/services/");
+    boolean auditActive = adminServletPath != null && adminServletPath.startsWith("/admin/audit/");
+    boolean policiesActive = adminServletPath != null && adminServletPath.startsWith("/admin/policies/");
+    boolean batchActive = adminServletPath != null && adminServletPath.startsWith("/admin/batch/");
+    boolean reportsActive = adminServletPath != null && adminServletPath.startsWith("/admin/reports/");
+    boolean profileActive = adminServletPath != null && adminServletPath.startsWith("/admin/profile/");
+
+    String adminFlashType = (String) request.getAttribute("flashType");
+    String adminFlashMessage = (String) request.getAttribute("flashMessage");
+%>
+<header class="site-header">
+    <div class="container navbar">
+        <a class="brand" href="<%= request.getContextPath() %>/admin/dashboard">CCHC Community Clinic System</a>
+        <ul class="nav-links">
+            <li><a class="<%= dashboardActive ? "active" : "" %>" href="<%= request.getContextPath() %>/admin/dashboard">Dashboard</a></li>
+            <li><a class="<%= usersActive ? "active" : "" %>" href="<%= request.getContextPath() %>/admin/users/list">Users</a></li>
+            <li><a class="<%= servicesActive ? "active" : "" %>" href="<%= request.getContextPath() %>/admin/services/list">Services</a></li>
+            <li><a class="<%= auditActive ? "active" : "" %>" href="<%= request.getContextPath() %>/admin/audit/users">Audit</a></li>
+            <li><a class="<%= batchActive ? "active" : "" %>" href="<%= request.getContextPath() %>/admin/batch/import">Batch</a></li>
+            <li><a class="<%= reportsActive ? "active" : "" %>" href="<%= request.getContextPath() %>/admin/reports/dashboard">Reports</a></li>
+            <li><a class="<%= profileActive ? "active" : "" %>" href="<%= request.getContextPath() %>/admin/profile/view">Profile</a></li>
+            <li><a href="<%= request.getContextPath() %>/logout">Logout</a></li>
+        </ul>
+    </div>
+</header>
+
+<% if (adminFlashMessage != null && !adminFlashMessage.trim().isEmpty()) { %>
+<div class="container" style="padding-top:12px;">
+    <p class="notice" style="<%= "error".equalsIgnoreCase(adminFlashType) ? "border-color:#f1b6b6;background:#fdeeee;color:#9f2b2b;" : "" %>"><%= escapeHtml(adminFlashMessage) %></p>
+</div>
+<% } %>

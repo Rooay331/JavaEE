@@ -1,0 +1,13 @@
+<%
+    String activeAuditPath = (String) request.getAttribute("activeAdminPath");
+    String auditBasePath = request.getContextPath() + "/admin/audit";
+
+    boolean auditTabUsersActive = "/admin/audit/users".equals(activeAuditPath);
+    boolean auditTabAppointmentsActive = "/admin/audit/appointments".equals(activeAuditPath);
+    boolean auditTabConfigActive = "/admin/audit/config".equals(activeAuditPath);
+%>
+<nav class="sub-nav" aria-label="Audit navigation">
+  <a class="<%= auditTabUsersActive ? "active" : "" %>" href="<%= auditBasePath %>/users">Staff Audit Trail</a>
+  <a class="<%= auditTabAppointmentsActive ? "active" : "" %>" href="<%= auditBasePath %>/appointments">Appointment Records</a>
+  <a class="<%= auditTabConfigActive ? "active" : "" %>" href="<%= auditBasePath %>/config">Operational Logs</a>
+</nav>

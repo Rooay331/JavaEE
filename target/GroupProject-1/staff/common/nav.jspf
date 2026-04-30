@@ -1,0 +1,34 @@
+<%
+    String activeStaffPath = (String) request.getAttribute("activeStaffPath");
+    String staffServletPath = activeStaffPath != null ? activeStaffPath : request.getServletPath();
+    boolean dashboardActive = "/staff/dashboard".equals(staffServletPath) || "/staff/dashboard.jsp".equals(staffServletPath);
+    boolean issuesActive = "/staff/services/issues".equals(staffServletPath) || "/staff/services/issues.jsp".equals(staffServletPath);
+    boolean appointmentsActive = "/staff/appointments/manage".equals(staffServletPath) || "/staff/appointments.jsp".equals(staffServletPath);
+    boolean queueActive = "/staff/queue/manage".equals(staffServletPath) || "/staff/queue/manage.jsp".equals(staffServletPath);
+    boolean notificationsActive = "/staff/notifications".equals(staffServletPath) || "/staff/notifications.jsp".equals(staffServletPath);
+    boolean profileActive = staffServletPath != null && staffServletPath.startsWith("/staff/profile/");
+
+    String staffFlashType = (String) request.getAttribute("flashType");
+    String staffFlashMessage = (String) request.getAttribute("flashMessage");
+%>
+
+<header class="site-header">
+    <div class="container navbar">
+        <a class="brand" href="<%= request.getContextPath() %>/staff/dashboard">CCHC Community Clinic System</a>
+        <ul class="nav-links">
+            <li><a class="<%= dashboardActive ? "active" : "" %>" href="<%= request.getContextPath() %>/staff/dashboard">Dashboard</a></li>
+            <li><a class="<%= appointmentsActive ? "active" : "" %>" href="<%= request.getContextPath() %>/staff/appointments/manage">Appointments</a></li>
+            <li><a class="<%= queueActive ? "active" : "" %>" href="<%= request.getContextPath() %>/staff/queue/manage">Queue</a></li>
+            <li><a class="<%= issuesActive ? "active" : "" %>" href="<%= request.getContextPath() %>/staff/services/issues">Issues</a></li>
+            <li><a class="<%= notificationsActive ? "active" : "" %>" href="<%= request.getContextPath() %>/staff/notifications">Notifications</a></li>
+            <li><a class="<%= profileActive ? "active" : "" %>" href="<%= request.getContextPath() %>/staff/profile/view">Profile</a></li>
+            <li><a href="<%= request.getContextPath() %>/logout">Logout</a></li>
+        </ul>
+    </div>
+</header>
+
+<% if (staffFlashMessage != null && !staffFlashMessage.trim().isEmpty()) { %>
+<div class="container" style="padding-top:12px;">
+    <p class="notice" style="<%= "error".equalsIgnoreCase(staffFlashType) ? "border-color:#f1b6b6;background:#fdeeee;color:#9f2b2b;" : "" %>"><%= staffFlashMessage %></p>
+</div>
+<% } %>

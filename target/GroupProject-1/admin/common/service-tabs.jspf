@@ -1,0 +1,18 @@
+<%
+    String activeServicePath = (String) request.getAttribute("activeAdminPath");
+    Integer selectedServiceId = (Integer) request.getAttribute("selectedServiceId");
+    String serviceBasePath = request.getContextPath() + "/admin/services";
+
+    boolean listActive = "/admin/services/list".equals(activeServicePath);
+    boolean addActive = "/admin/services/add".equals(activeServicePath);
+    boolean editActive = "/admin/services/edit".equals(activeServicePath);
+    boolean deleteActive = "/admin/services/delete".equals(activeServicePath);
+%>
+<nav class="sub-nav" aria-label="Service management navigation">
+  <a class="<%= listActive ? "active" : "" %>" href="<%= serviceBasePath %>/list">List Services</a>
+  <a class="<%= addActive ? "active" : "" %>" href="<%= serviceBasePath %>/add">Add Service</a>
+  <% if (selectedServiceId != null) { %>
+  <a class="<%= editActive ? "active" : "" %>" href="<%= serviceBasePath %>/edit?serviceId=<%= selectedServiceId %>">Edit Service</a>
+  <a class="<%= deleteActive ? "active" : "" %>" href="<%= serviceBasePath %>/delete?serviceId=<%= selectedServiceId %>">Delete Service</a>
+  <% } %>
+</nav>

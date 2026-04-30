@@ -1,0 +1,23 @@
+<%
+    String activePatientPath = (String) request.getAttribute("activePatientPath");
+    String patientServletPath = activePatientPath != null ? activePatientPath : request.getServletPath();
+    boolean dashboardActive = "/patient/dashboard".equals(patientServletPath) || "/patient/dashboard.jsp".equals(patientServletPath);
+    boolean bookingActive = "/patient/appointments/book".equals(patientServletPath) || "/patient/appointments/book.jsp".equals(patientServletPath);
+    boolean queueActive = "/patient/queue/join".equals(patientServletPath) || "/patient/queue/join.jsp".equals(patientServletPath);
+    boolean clinicsActive = "/clinics".equals(patientServletPath)
+        || "/clinics.jsp".equals(patientServletPath)
+        || "/patient/clinics".equals(patientServletPath)
+        || "/patient/clinics.jsp".equals(patientServletPath);
+%>
+<header class="site-header">
+    <div class="container navbar">
+        <a class="brand" href="<%= request.getContextPath() %>/patient/dashboard">CCHC Community Clinic System</a>
+        <ul class="nav-links">
+            <li><a class="<%= dashboardActive ? "active" : "" %>" href="<%= request.getContextPath() %>/patient/dashboard">Dashboard</a></li>
+            <li><a class="<%= bookingActive ? "active" : "" %>" href="<%= request.getContextPath() %>/patient/appointments/book">Book Appointment</a></li>
+            <li><a class="<%= queueActive ? "active" : "" %>" href="<%= request.getContextPath() %>/patient/queue/join">Join Queue</a></li>
+            <li><a class="<%= clinicsActive ? "active" : "" %>" href="<%= request.getContextPath() %>/patient/clinics">Clinic List</a></li>
+            <li><a href="<%= request.getContextPath() %>/logout">Logout</a></li>
+        </ul>
+    </div>
+</header>
