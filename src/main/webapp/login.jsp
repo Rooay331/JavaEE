@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
+<jsp:useBean id="loginUser" scope="request" class="ict.bean.User" />
 <!doctype html>
 <html lang="en">
 
@@ -30,9 +31,16 @@
                     </div>
 
                     <form id="loginForm" action="login" method="post" class="form-grid" novalidate>
+                        <% String errorMessage = (String) request.getAttribute("errorMessage");
+                           if (errorMessage != null) { %>
+                        <div class="field field-full">
+                            <p class="error-message"><%= errorMessage %></p>
+                        </div>
+                        <% } %>
                         <div class="field field-full">
                             <label for="identity">Email, mobile number, or full name</label>
-                            <input id="identity" name="username" type="text" placeholder="Email, phone, or full name" autocomplete="username">
+                            <input id="identity" name="username" type="text" placeholder="Email, phone, or full name" autocomplete="username"
+                                   value="<jsp:getProperty name="loginUser" property="fullName" />">
                         </div>
 
                         <div class="field field-full">

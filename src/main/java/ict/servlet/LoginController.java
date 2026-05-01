@@ -51,6 +51,9 @@ public class LoginController extends HttpServlet {
 
             String role = authenticatedUser.getRole();
             if ("STAFF".equalsIgnoreCase(role) && authenticatedUser.getClinicId() == null) {
+                User formUser = new User();
+                formUser.setFullName(username);
+                request.setAttribute("loginUser", formUser);
                 request.setAttribute("errorMessage", "Staff account is missing an assigned clinic.");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
                 return;
@@ -81,6 +84,9 @@ public class LoginController extends HttpServlet {
             return;
         }
 
+        User formUser = new User();
+        formUser.setFullName(username);
+        request.setAttribute("loginUser", formUser);
         request.setAttribute("errorMessage", "Invalid login credentials.");
         request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
